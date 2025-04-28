@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Container Slider</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* Container Section */
+    #section-container {
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .container-wrapper {
+      display: flex;
+      transition: transform 0.8s ease;
+      width: 200%; /* 2 containers side by side */
+    }
+
+
+    .container1 {
+      display: none;
+      flex-wrap: wrap;
+      background-color: rgba(4, 244, 116, 0.31);
+      justify-content: space-between;
+      align-items: center;
+      padding: 4em 2em 2em 2em;
+      margin: 3em;
+      border: 1px solid black;
+      gap: 2em;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .container1.active {
+      display: flex;
+    }
+
+    /* Toggle (Pagination Dots) */
+    .toggles {
+      margin-top: 1em;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .toggles button {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: none;
+      background-color: #bbb;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .toggles button.active {
+      background-color: #0077ff;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container1 {
+        flex-direction: column;
+        text-align: center;
+        padding: 2em 1em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <section id="section-container">
+
+    <!-- Container Wrapper -->
+    <div class="container-wrapper" id="container-wrapper">
+    <!-- Container 1 -->
+    <div class="container1 active">
+      <div class="container1_content1">
+        <p>
+          <b>Build Planet Zero</b><br>
+          – Let’s make it happen <br> together.
+        </p>
+      </div>
+      <div class="container1_content2">
+        <img src="img/BPZ_LOGO 1.png" alt="Build Planet Zero Logo" width="150">
+        <p>
+          The transition to net zero isn’t just about <br> cutting emissions — it’s about building a <br> better future.
+        </p>
+      </div>
+    </div>
+
+    <!-- Container 2 -->
+    <div class="container1">
+      <div class="container1_content1">
+        <p>
+          <b>Innovate for Tomorrow</b><br>
+          – Sustainability starts <br> today.
+        </p>
+      </div>
+      <div class="container1_content2">
+        <img src="img/BPZ_LOGO 1.png" alt="Build Planet Zero Logo 2" width="150">
+        <p>
+          Building smarter cities with renewable energy and eco-friendly designs.
+        </p>
+      </div>
+    </div>
+    </div>
+
+    <!-- Toggles -->
+    <div class="toggles" id="toggles"></div>
+
+  </section>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const wrapper = document.getElementById('container-wrapper');
+      const containers = document.querySelectorAll('.container1');
+      const toggles = document.getElementById('toggles');
+      let current = 0;
+
+      // Create toggle buttons dynamically
+      containers.forEach((_, index) => {
+        const btn = document.createElement('button');
+        btn.addEventListener('click', () => showContainer(index));
+        toggles.appendChild(btn);
+      });
+
+      const toggleButtons = toggles.querySelectorAll('button');
+
+      function showContainer(index) {
+        current = index;
+        wrapper.style.transform = `translateX(-${current * 100}%)`;
+
+        toggleButtons.forEach(btn => btn.classList.remove('active'));
+        toggleButtons[current].classList.add('active');
+      }
+
+      function showNextContainer() {
+        let next = (current + 1) % containers.length;
+        showContainer(next);
+      }
+
+      // Initialize first button as active
+      toggleButtons[current].classList.add('active');
+
+      // Auto-slide every 5 seconds
+      setInterval(showNextContainer, 5000);
+    });
+  </script>
+
+</body>
+</html>
